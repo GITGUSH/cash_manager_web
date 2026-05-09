@@ -46,23 +46,22 @@ async function deletarCategoria(id) {
 
 // Salvar nova categoria
 document.getElementById("btnSalvarCategoria").addEventListener("click", async function () {
-    const nome  = document.getElementById("nomeCategoria").value;
+    const nome   = document.getElementById("nomeCategoria").value;
     const tipoES = document.querySelector("input[name='tipo']:checked")?.value;
 
-    if (!tipoES) {
-        alert("Selecione o tipo de transação!");
-        return;
+    if (nome !== "" && tipoES) {
+        await fetch(`${API_URL}/categoria`, {
+            method: "POST",
+            headers,
+            body: JSON.stringify({ nome, tipoES })
+        });
+
+        alert("Categoria criada com sucesso!");
+        bootstrap.Modal.getInstance(document.getElementById("modalNovaCategoria")).hide();
+        carregarCategorias();
+    } else {
+        alert("Todos os campos devem estar preenchidos!");
     }
-
-    await fetch(`${API_URL}/categoria`, {
-        method: "POST",
-        headers,
-        body: JSON.stringify({ nome, tipoES })
-    });
-
-    alert("Categoria criada com sucesso!");
-    bootstrap.Modal.getInstance(document.getElementById("modalNovaCategoria")).hide();
-    carregarCategorias();
 });
 
 // Sair
@@ -70,6 +69,11 @@ document.getElementById("btnSair").addEventListener("click", function (e) {
     e.preventDefault();
     localStorage.removeItem("token");
     window.location.href = "index.html";
+});
+
+document.getElementById("modalNovaCategoria").addEventListener("hidden.bs.modal", function () {
+    document.getElementById("nomeCategoria").value = "";
+    document.querySelectorAll("input[name='tipo']").forEach(r => r.checked = false);
 });
 
 carregarCategorias();

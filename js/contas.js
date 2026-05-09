@@ -79,20 +79,22 @@ async function deletarConta(id) {
 
 //Salvar nova conta
 document.getElementById("btnSalvarConta").addEventListener("click", async function () {
-    const nome = document.getElementById("nomeConta").value;
+    const nome  = document.getElementById("nomeConta").value;
     const saldo = parseFloat(document.getElementById("saldoConta").value);
 
-    await fetch(`${API_URL}/conta`, {
-        method: "POST",
-        headers,
-        body: JSON.stringify({ Nome: nome, Saldo: saldo })
-    });
+    if (nome !== "" && !isNaN(saldo)) {
+        await fetch(`${API_URL}/conta`, {
+            method: "POST",
+            headers,
+            body: JSON.stringify({ Nome: nome, Saldo: saldo })
+        });
 
-    alert("Conta criada com sucesso!");
-
-    // Fecha o modal e recarrega
-    bootstrap.Modal.getInstance(document.getElementById("modalNovaConta")).hide();
-    carregarContas();
+        alert("Conta criada com sucesso!");
+        bootstrap.Modal.getInstance(document.getElementById("modalNovaConta")).hide();
+        carregarContas();
+    } else {
+        alert("Todos os campos devem estar preenchidos!");
+    }
 });
 
 // Sair
@@ -100,6 +102,11 @@ document.getElementById("btnSair").addEventListener("click", function (e) {
     e.preventDefault();
     localStorage.removeItem("token");
     window.location.href = "index.html";
+});
+
+document.getElementById("modalNovaConta").addEventListener("hidden.bs.modal", function () {
+    document.getElementById("nomeConta").value = "";
+    document.getElementById("saldoConta").value = "";
 });
 
 carregarContas();
