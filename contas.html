@@ -7,9 +7,81 @@
     <title>CashManager - Contas</title>
 </head>
 <body>
+<!--Barra de navegação-->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="#">CashManager</a>
+            <div class="collapse navbar-collapse">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="dashboard.html">Dashboard</a></li>
+                    <li class="nav-item"><a class="nav-link" href="contas.html">Contas</a></li>
+                    <li class="nav-item"><a class="nav-link" href="categorias.html">Categorias</a></li>
+                    <li class="nav-item"><a class="nav-link" href="operacoes.html">Operações</a></li>
+                    <li class="nav-item"><a class="nav-link" href="index.html" id="btnSair">Sair</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>   
 
+    <div class="container mt-4">
 
+        <!-- Botão adicionar -->
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h4>Minhas Contas</h4>
+            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalNovaConta">
+                + Nova Conta
+            </button>
+        </div>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>    
+        <!-- Lista de contas -->
+        <div class="row" id="listaContas"></div>
+
+        <!-- Operações da conta selecionada -->
+        <div id="secaoOperacoes" class="mt-4" style="display:none;">
+            <h5>Operações de: <span id="nomeContaSelecionada"></span></h5>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Descrição</th>
+                        <th>Valor</th>
+                        <th>Tipo</th>
+                        <th>Data</th>
+                    </tr>
+                </thead>
+                <tbody id="tabelaOperacoesConta">
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+<!-- Modal nova conta -->
+    <div class="modal fade" id="modalNovaConta" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Nova Conta</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label">Nome</label>
+                        <input type="text" class="form-control" id="nomeConta">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Saldo Inicial</label>
+                        <input type="number" class="form-control" id="saldoConta" step="0.01">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary" id="btnSalvarConta">Salvar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/config.js"></script>
+    <script src="js/contas.js"></script> 
 </body>
 </html>

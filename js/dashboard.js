@@ -22,6 +22,10 @@ async function carregarDashboard() {
 
     //Calcula entradas e saídas
     const totalEntradas = operacoes
+        .filter(o => o.tipoES === "E")
+        .reduce((acc, o) => acc + o.valor, 0);
+
+    const totalSaidas = operacoes
         .filter(o => o.tipoES === "S")
         .reduce((acc, o) => acc + o.valor, 0);
 
@@ -32,15 +36,16 @@ async function carregarDashboard() {
 
     //Preenche a tabela com as 5 últimas operações
 
-    const tbody = document.getElementById("tr");
+    const tbody = document.getElementById("tabelaOperacoes");
     const ultimas = operacoes.slice(-5).reverse();
 
     ultimas.forEach(o => {
         const tr = document.createElement("tr");
-        tr.innerHTML = `
+                tr.innerHTML = `
             <td>${o.descricao}</td>
             <td>R$ ${o.valor.toFixed(2)}</td>
             <td>${o.tipoES === "E" ? "Entrada" : "Saída"}</td>
+            <td>${o.nomeConta}</td>
             <td>${new Date(o.dataOperacao).toLocaleDateString("pt-BR")}</td>
         `;
         tbody.appendChild(tr);
