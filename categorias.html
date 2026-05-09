@@ -7,9 +7,68 @@
     <title>CashManager - Categorias</title>
 </head>
 <body>
+<!--Barra de navegação-->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="#">CashManager</a>
+            <div class="collapse navbar-collapse">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="dashboard.html">Dashboard</a></li>
+                    <li class="nav-item"><a class="nav-link" href="contas.html">Contas</a></li>
+                    <li class="nav-item"><a class="nav-link" href="categorias.html">Categorias</a></li>
+                    <li class="nav-item"><a class="nav-link" href="operacoes.html">Operações</a></li>
+                    <li class="nav-item"><a class="nav-link" href="index.html" id="btnSair">Sair</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>   
 
+    <div class="container mt-4">
 
+        <!-- Botão adicionar -->
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h4>Minhas Categorias</h4>
+            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalNovaCategoria">
+                + Nova Categoria
+            </button>
+        </div>
 
+        <!-- Lista de categorias -->
+        <div class="row" id="listaCategorias"></div>
+
+        <!-- Modal nova categoria -->
+    <div class="modal fade" id="modalNovaCategoria" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Nova Categoria</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label">Nome</label>
+                        <input type="text" class="form-control" id="nomeCategoria">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Tipo de Transação</label><br>
+                        <label>
+                          <input type="radio" name="tipo" value="E" id="entrada"> Entrada 
+                        </label>
+                        <label>
+                          <input type="radio" name="tipo" value="S" id="saida"> Saída
+                        </label>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary" id="btnSalvarCategoria">Salvar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<script src="js/config.js"></script>
+<script src="js/categorias.js"></script> 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>    
 </body>
 </html>
