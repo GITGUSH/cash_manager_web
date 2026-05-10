@@ -132,7 +132,6 @@ async function abrirModalOperacao(idConta, nomeConta) {
     idContaSelecionada = idConta;
     document.getElementById("nomeContaOperacao").textContent = nomeConta;
 
-    // Preenche o select de categorias
     const res = await fetch(`${API_URL}/categorias`, { headers });
     const categorias = await res.json();
 
@@ -142,12 +141,25 @@ async function abrirModalOperacao(idConta, nomeConta) {
         const option = document.createElement("option");
         option.value = c.idCategoria;
         option.textContent = `${c.nome} (${c.tipoES === "E" ? "Entrada" : "Saída"})`;
+        option.dataset.tipo = c.tipoES;
+        option.style.display = "none"; 
         select.appendChild(option);
+    });
+
+    document.querySelectorAll("input[name='tipoOp']").forEach(radio => {
+        const novoRadio = radio.cloneNode(true);
+        radio.parentNode.replaceChild(novoRadio, radio);
+        novoRadio.addEventListener("change", function () {
+            const options = select.querySelectorAll("option:not(:first-child)");
+            options.forEach(option => {
+                option.style.display = option.dataset.tipo === this.value ? "block" : "none";
+            });
+            select.value = "";
+        });
     });
 
     new bootstrap.Modal(document.getElementById("modalNovaOperacaoConta")).show();
 }
-
 // Salvar operação direto da conta
 document.getElementById("btnSalvarOperacaoConta").addEventListener("click", async function () {
     const descricao   = document.getElementById("descricaoOp").value;

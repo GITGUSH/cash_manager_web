@@ -55,7 +55,8 @@ async function carregarCategorias() {
     categorias.forEach(c => {
         const option = document.createElement("option");
         option.value = c.idCategoria;
-        option.textContent = `${c.nome} (${c.tipoES === "E" ? "Entrada" : "Saída"})`;
+        option.textContent = `${c.nome}`;
+        option.dataset.tipo = c.tipoES; // ← guarda o tipo no dataset
         select.appendChild(option);
     });
 }
@@ -115,3 +116,25 @@ document.getElementById("btnSair").addEventListener("click", function (e) {
 carregarContas();
 carregarCategorias();
 carregarOperacoes();
+
+// Adiciona evento nos radio buttons de tipo
+document.querySelectorAll("input[name='tipoOperacao']").forEach(radio => {
+    radio.addEventListener("change", function () {
+        filtrarCategoriasPorTipo(this.value);
+    });
+});
+
+function filtrarCategoriasPorTipo(tipo) {
+    const select = document.getElementById("categoriaOperacao");
+    const options = select.querySelectorAll("option:not(:first-child)");
+
+    options.forEach(option => {
+        if (option.dataset.tipo === tipo) {
+            option.style.display = "block";
+        } else {
+            option.style.display = "none";
+        }
+    });
+
+    select.value = ""; // reseta a seleção
+}
