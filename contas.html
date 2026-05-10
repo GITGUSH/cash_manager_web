@@ -46,6 +46,7 @@
                         <th>Valor</th>
                         <th>Tipo</th>
                         <th>Data</th>
+                        <th>Ações</th>
                     </tr>
                 </thead>
                 <tbody id="tabelaOperacoesConta">
@@ -75,6 +76,47 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
                     <button type="button" class="btn btn-primary" id="btnSalvarConta">Salvar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal nova operação direto da conta -->
+    <div class="modal fade" id="modalNovaOperacaoConta" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Nova Operação — <span id="nomeContaOperacao"></span></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label">Descrição</label>
+                        <input type="text" class="form-control" id="descricaoOp">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Valor</label>
+                        <input type="number" class="form-control" id="valorOp" step="0.01">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Tipo</label><br>
+                        <label>
+                            <input type="radio" name="tipoOp" value="E"> Entrada
+                        </label>
+                        <label class="ms-3">
+                            <input type="radio" name="tipoOp" value="S"> Saída
+                        </label>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Categoria</label>
+                        <select class="form-select" id="categoriaOp">
+                            <option value="">Selecione uma categoria</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary" id="btnSalvarOperacaoConta">Salvar</button>
                 </div>
             </div>
         </div>

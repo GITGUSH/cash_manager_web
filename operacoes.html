@@ -8,8 +8,96 @@
 </head>
 <body>
 
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="#">CashManager</a>
+            <div class="collapse navbar-collapse">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="dashboard.html">Dashboard</a></li>
+                    <li class="nav-item"><a class="nav-link" href="contas.html">Contas</a></li>
+                    <li class="nav-item"><a class="nav-link" href="categorias.html">Categorias</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="operacoes.html">Operações</a></li>
+                    <li class="nav-item"><a class="nav-link" href="index.html" id="btnSair">Sair</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
 
+    <div class="container mt-4">
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>    
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h4>Operações</h4>
+            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalNovaOperacao">
+                + Nova Operação
+            </button>
+        </div>
+
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Descrição</th>
+                    <th>Valor</th>
+                    <th>Tipo</th>
+                    <th>Conta</th>
+                    <th>Data</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody id="tabelaOperacoes">
+            </tbody>
+        </table>
+
+    </div>
+
+    <!-- Modal nova operação -->
+    <div class="modal fade" id="modalNovaOperacao" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Nova Operação</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label">Descrição</label>
+                        <input type="text" class="form-control" id="descricaoOperacao">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Valor</label>
+                        <input type="number" class="form-control" id="valorOperacao" step="0.01">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Tipo</label><br>
+                        <label>
+                            <input type="radio" name="tipoOperacao" value="E"> Entrada
+                        </label>
+                        <label class="ms-3">
+                            <input type="radio" name="tipoOperacao" value="S"> Saída
+                        </label>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Conta</label>
+                        <select class="form-select" id="contaOperacao">
+                            <option value="">Selecione uma conta</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Categoria</label>
+                        <select class="form-select" id="categoriaOperacao">
+                            <option value="">Selecione uma categoria</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary" id="btnSalvarOperacao">Salvar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/config.js"></script>
+    <script src="js/operacoes.js"></script>
 </body>
 </html>

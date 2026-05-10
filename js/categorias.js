@@ -36,10 +36,16 @@ async function carregarCategorias() {
 async function deletarCategoria(id) {
     if (!confirm("Tem certeza que deseja deletar essa categoria?")) return;
 
-    await fetch(`${API_URL}/categoria/${id}`, {
+    const res = await fetch(`${API_URL}/categoria/${id}`, {
         method: "DELETE",
         headers
     });
+
+    if (!res.ok) {
+        const msg = await res.text();
+        alert(msg);
+        return;
+    }
 
     carregarCategorias();
 }

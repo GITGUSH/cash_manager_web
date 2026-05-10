@@ -18,19 +18,22 @@ async function carregarContas(){
         const col = document.createElement("div");
         col.className = "col-md-4 mb-3";
         col.innerHTML = `
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">${conta.nome}</h5>
-                    <p class="card-text fs-5">R$ ${conta.saldo.toFixed(2)}</p>
-                    <button class="btn btn-outline-primary btn-sm me-2" onclick="verOperacoes(${conta.idConta}, '${conta.nome}')    ">
-                        Ver Operações
-                    </button>
-                    <button class="btn btn-outline-danger btn-sm" onclick="deletarConta(${conta.idConta})">
-                        Deletar
-                    </button>
-                </div>
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">${conta.nome}</h5>
+                <p class="card-text fs-5">R$ ${conta.saldo.toFixed(2)}</p>
+                <button class="btn btn-outline-primary btn-sm me-2" onclick="verOperacoes(${conta.idConta}, '${conta.nome}')">
+                    Ver Operações
+                </button>
+                <button class="btn btn-outline-success btn-sm me-2" onclick="abrirModalOperacao(${conta.idConta}, '${conta.nome}')">
+                    + Operação
+                </button>
+                <button class="btn btn-outline-danger btn-sm" onclick="deletarConta(${conta.idConta})">
+                    Deletar
+                </button>
             </div>
-        `;
+        </div>
+`;  
         lista.appendChild(col);
     });
 }
@@ -54,25 +57,36 @@ async function verOperacoes(idConta, nomeConta){
     tbody.innerHTML = "";
     
     filtradas.forEach(o => {
-        const tr = document.createElement("tr");
-        tr.innerHTML = `
-            <td>${o.descricao}</td>
-            <td>R$ ${o.valor.toFixed(2)}</td>
-            <td>${o.tipoES === "E" ? "Entrada" : "Saída"}</td>
-            <td>${new Date(o.dataOperacao).toLocaleDateString("pt-BR")}</td>
-        `;
-        tbody.appendChild(tr);
-    });
+    const tr = document.createElement("tr");
+    tr.innerHTML = `
+        <td>${o.descricao}</td>
+        <td>R$ ${o.valor.toFixed(2)}</td>
+        <td>${o.tipoES === "E" ? "Entrada" : "Saída"}</td>
+        <td>${new Date(o.dataOperacao).toLocaleDateString("pt-BR")}</td>
+        <td>
+            <button class="btn btn-outline-danger btn-sm" onclick="deletarOperacaoConta(${o.idOperacao}, ${o.idConta}, '${o.descricao}')">
+                Deletar
+            </button>
+        </td>
+    `;
+    tbody.appendChild(tr);
+});
 }
 
 //Deletar conta
 async function deletarConta(id) {
     if (!confirm("Tem certeza que deseja deletar essa conta?")) return;
 
-    await fetch(`${API_URL}/conta/${id}`, {
+    const res = await fetch(`${API_URL}/conta/${id}`, {
         method: "DELETE",
         headers
     });
+
+    if (!res.ok) {
+        const msg = await res.text();
+        alert(msg); // exibe a mensagem do backend
+        return;
+    }
 
     carregarContas();
 }
@@ -108,5 +122,80 @@ document.getElementById("modalNovaConta").addEventListener("hidden.bs.modal", fu
     document.getElementById("nomeConta").value = "";
     document.getElementById("saldoConta").value = "";
 });
+
+
+// Guarda o id da conta selecionada
+let idContaSelecionada = null;
+
+// Abre o modal já com a conta definida
+async function abrirModalOperacao(idConta, nomeConta) {
+    idContaSelecionada = idConta;
+    document.getElementById("nomeContaOperacao").textContent = nomeConta;
+
+    // Preenche o select de categorias
+    const res = await fetch(`${API_URL}/categorias`, { headers });
+    const categorias = await res.json();
+
+    const select = document.getElementById("categoriaOp");
+    select.innerHTML = '<option value="">Selecione uma categoria</option>';
+    categorias.forEach(c => {
+        const option = document.createElement("option");
+        option.value = c.idCategoria;
+        option.textContent = `${c.nome} (${c.tipoES === "E" ? "Entrada" : "Saída"})`;
+        select.appendChild(option);
+    });
+
+    new bootstrap.Modal(document.getElementById("modalNovaOperacaoConta")).show();
+}
+
+// Salvar operação direto da conta
+document.getElementById("btnSalvarOperacaoConta").addEventListener("click", async function () {
+    const descricao   = document.getElementById("descricaoOp").value;
+    const valor       = parseFloat(document.getElementById("valorOp").value);
+    const tipoES      = document.querySelector("input[name='tipoOp']:checked")?.value;
+    const idCategoria = parseInt(document.getElementById("categoriaOp").value);
+
+    if (descricao === "" || isNaN(valor) || !tipoES || !idCategoria) {
+        alert("Todos os campos devem ser preenchidos!");
+        return;
+    }
+
+    await fetch(`${API_URL}/operacao`, {
+        method: "POST",
+        headers,
+        body: JSON.stringify({
+            descricao,
+            valor,
+            tipoES,
+            idConta: idContaSelecionada,
+            idCategoria
+        })
+    });
+
+    alert("Operação registrada com sucesso!");
+    bootstrap.Modal.getInstance(document.getElementById("modalNovaOperacaoConta")).hide();
+    carregarContas();
+}); 
+
+// Limpa o modal ao fechar
+document.getElementById("modalNovaOperacaoConta").addEventListener("hidden.bs.modal", function () {
+    document.getElementById("descricaoOp").value = "";
+    document.getElementById("valorOp").value = "";
+    document.querySelectorAll("input[name='tipoOp']").forEach(r => r.checked = false);
+    document.getElementById("categoriaOp").value = "";
+    idContaSelecionada = null;
+});
+
+async function deletarOperacaoConta(idOperacao, idConta, descricao) {
+    if (!confirm(`Deseja deletar a operação "${descricao}"?`)) return;
+
+    await fetch(`${API_URL}/operacao/${idOperacao}`, {
+        method: "DELETE",
+        headers
+    });
+
+    carregarContas();
+    verOperacoes(idConta, document.getElementById("nomeContaSelecionada").textContent);
+}
 
 carregarContas();
