@@ -12,3 +12,13 @@ btn.addEventListener("click", function () {
     localStorage.setItem("tema", novoTema);
     this.textContent = novoTema === "dark" ? "⚪" : "⚫";
 });
+
+document.getElementById("btnEncerrar").addEventListener("click", async function () {
+    if (!confirm("Deseja encerrar o sistema completamente?")) return;
+    alert("Sistema encerrado, pode fechar o navegador.")
+
+    await fetch(`${API_URL}/shutdown`, { method: "POST" });
+
+    localStorage.removeItem("token");
+    window.close(); // fecha a aba do navegador
+});
