@@ -8,27 +8,36 @@
     <title>CashManager - Dashboard</title>
 </head>
 <body>
+    
 <!--Barra de navegação-->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="container">
-            <a class="navbar-brand" href="#">CashManager</a>
-            <div class="collapse navbar-collapse">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link" href="dashboard.html">Dashboard</a></li>
-                    <li class="nav-item"><a class="nav-link" href="contas.html">Contas</a></li>
-                    <li class="nav-item"><a class="nav-link" href="categorias.html">Categorias</a></li>
-                    <li class="nav-item"><a class="nav-link" href="operacoes.html">Operações</a></li>
-                    <li class="nav-item"><a class="nav-link" href="index.html" id="btnSair">Sair</a></li>
-                    <li class="nav-item ms-2">
-                    <button class="btn btn-danger btn-sm mt-1" id="btnEncerrar">⏻</button>
-                    </li>                    
-                    <li class="nav-item ms-3">
-                    <button class="btn btn-link text-light btn-sm mt-1" id="btnTema">⚫</button>
-                    </li>                   
-                </ul>
-            </div>
+    <div class="container">
+        <a class="navbar-brand" href="#">CashManager</a>
+
+        <!-- Botão hamburguer -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMenu">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- Menu -->
+        <div class="collapse navbar-collapse" id="navbarMenu">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item"><a class="nav-link" href="dashboard.html">Dashboard</a></li>
+                <li class="nav-item"><a class="nav-link" href="contas.html">Contas</a></li>
+                <li class="nav-item"><a class="nav-link" href="categorias.html">Categorias</a></li>
+                <li class="nav-item"><a class="nav-link" href="operacoes.html">Operações</a></li>
+                <li class="nav-item"><a class="nav-link" href="index.html" id="btnSair">Sair</a></li>
+                <li class="nav-item ms-2">
+                    <button class="btn btn-danger btn-sm mt-1" id="btnEncerrar">Desligar</button>
+                </li>
+                <li class="nav-item ms-3">
+                    <button class="btn btn-link text-light btn-sm mt-1" id="btnTema">💡</button>
+                </li>
+            </ul>
         </div>
-    </nav>
+    </div>
+</nav>   
+
 
  <!-- Cards de resumo -->
         <div class="container mt-4">
