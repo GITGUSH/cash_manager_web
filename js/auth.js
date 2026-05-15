@@ -13,7 +13,7 @@ document.getElementById("formLogin").addEventListener("submit", async function (
     if (response.ok){
         const data = await response.json();
 
-       console.log(data);
+       //console.log(data);
 
         localStorage.setItem("token", data.token); //Salva o token para usar em próximas requisições
         //alert("Login OK");
